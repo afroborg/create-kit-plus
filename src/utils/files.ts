@@ -9,31 +9,33 @@ const template = (t: string) => path.join(__dirname, `../templates/${t}`);
 const deletePackageJson = (folder: string) => rmSync(`${folder}/package.json`);
 
 const copyTemplateData = (t: string, folder: string) => {
-	cpSync(template(t), folder, {
-		recursive: true,
-		errorOnExist: false
-	});
+  cpSync(template(t), folder, {
+    recursive: true,
+    errorOnExist: false,
+  });
 };
 
 export const moveFiles = async (foldername: string, features: Feature[]) => {
-	console.log(chalk.yellowBright('🧱 Builing your new files'));
+  const copyTemplateData = (t: string) => {
+    cpSync(template(t), foldername, {
+      recursive: true,
+      errorOnExist: false,
+    });
+  };
 
-	const copyTemplateData = (t: string) => {
-		cpSync(template(t), foldername, {
-			recursive: true,
-			errorOnExist: false
-		});
-	};
+  copyTemplateData('default');
 
-	copyTemplateData('default');
+  if (features.includes('Tailwind')) {
+    copyTemplateData('tailwind');
+  }
 
-	deletePackageJson(foldername);
+  if (features.includes('Docker')) {
+    copyTemplateData('docker');
+  }
 
-	if (features.includes('Tailwind')) {
-		copyTemplateData('tailwind');
-	}
+  if (features.includes('Prisma')) {
+    copyTemplateData('prisma');
+  }
 
-	if (features.includes('Docker')) {
-		copyTemplateData('docker');
-	}
+  deletePackageJson(foldername);
 };

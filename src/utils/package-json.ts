@@ -1,42 +1,56 @@
 import chalk from 'chalk';
 import { Feature } from '../models/feature';
 import { PackageJson } from '../models/package-json';
+import { writeFileSync } from 'fs';
 
 type Default = {
-	default: PackageJson;
+  default: PackageJson;
 };
 
 const mergePackageJsons = (base: PackageJson, next: PackageJson) => ({
-	...base,
-	...next,
-	dependencies: {
-		...base.dependencies,
-		...next.dependencies
-	},
-	devDependencies: {
-		...base.devDependencies,
-		...next.devDependencies
-	}
+  ...base,
+  ...next,
+  dependencies: {
+    ...base.dependencies,
+    ...next.dependencies,
+  },
+  devDependencies: {
+    ...base.devDependencies,
+    ...next.devDependencies,
+  },
 });
 
-export const buildPackageJson = async (features: Feature[], name: string): Promise<PackageJson> => {
-	console.log(chalk.yellowBright('🛠  Building your package.json'));
+export const buildPackageJson = async (
+  features: Feature[],
+  name: string
+): Promise<PackageJson> => {
+  let { default: base }: Default = await import(
+    '../templates/default/package.json'
+  );
 
-	let { default: base }: Default = await import('../templates/default/package.json');
+  if (features.includes('Tailwind')) {
+    const { default: tailwind }: Default = await import(
+      '../templates/tailwind/package.json'
+    );
 
-	if (features.includes('Tailwind')) {
-		const { default: tailwind }: Default = await import('../templates/tailwind/package.json');
+    base = mergePackageJsons(base, tailwind);
+  }
 
-		base = mergePackageJsons(base, tailwind);
-	}
+  if (features.includes('Docker')) {
+    const { default: docker }: Default = await import(
+      '../templates/docker/package.json'
+    );
 
-	if (features.includes('Docker')) {
-		const { default: docker }: Default = await import('../templates/docker/package.json');
+    base = mergePackageJsons(base, docker);
+  }
 
-		base = mergePackageJsons(base, docker);
-	}
+  base.name = name;
 
-	base.name = name;
+  return base;
+};
 
-	return base;
+export const createPackageJson = (pj: PackageJson, path: string) => {
+  writeFileSync(`${path}/package.json`, JSON.stringify(pj), {
+    encoding: 'utf8',
+  });
 };

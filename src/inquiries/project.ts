@@ -36,6 +36,10 @@ export const getProjectName = async (): Promise<[string, string]> => {
     message: 'Name (empty for current directory name)',
     type: 'input',
     validate: (input) => {
+      if (input === '.') {
+        return true;
+      }
+
       if (!/^[a-z-]*$/.test(input)) {
         return 'Name can only include lowercase letters (a-z) and -';
       }

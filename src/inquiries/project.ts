@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { mkdirSync, rmSync } from 'fs';
+import { mkdirSync, readdirSync, rmSync } from 'fs';
 import inquirer, { prompt } from 'inquirer';
 import path from 'path';
 
@@ -47,6 +47,14 @@ export const getProjectName = async (): Promise<[string, string]> => {
   // if no name specified or (.) get the current folder name instead
   if (name === '.' || !name) {
     const foldername = path.basename(path.resolve());
+
+    if (readdirSync('.').length > 0) {
+      console.log(
+        chalk.redBright('Directory is not empty, could not continue')
+      );
+      process.exit();
+    }
+
     return [foldername, '.'];
   }
 

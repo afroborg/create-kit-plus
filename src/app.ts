@@ -1,3 +1,5 @@
+#!/usr/bin/node
+
 import chalk from 'chalk';
 import { getAdditionalFeatures } from './inquiries/features';
 import { getProjectName, getProjectPath } from './inquiries/project';

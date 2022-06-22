@@ -1,3 +1,5 @@
+#!/usr/bin/node
+
 import { exec } from 'child_process';
 import { cpSync } from 'fs';
 import path from 'path';

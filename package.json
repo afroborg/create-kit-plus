@@ -6,7 +6,7 @@
   "scripts": {
     "build": "ts-node ./tools/build.ts",
     "start": "ts-node src/app.ts",
-    "publish": "pnpm build; pnpm publish"
+    "publish": "pnpm publish"
   },
   "devDependencies": {
     "@types/chalk": "^2.2.0",

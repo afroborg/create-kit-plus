@@ -7,7 +7,8 @@
     "sourceMap": true,
     "strict": true,
     "target": "es2020",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "outDir": "build"
   },
-  "exclude": ["src/templates/*/**"]
+  "exclude": ["src/templates/*/**", "tools/*/**", "build/*/**"]
 }

@@ -12,7 +12,7 @@ const cpTemplates = async () =>
 
 const tsc = async () =>
   new Promise((resolve, reject) => {
-    exec('pnpm build:tsc', (error, output) => {
+    exec('tsc', (error, output) => {
       if (error) {
         reject(error);
         return;

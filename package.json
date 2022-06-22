@@ -4,8 +4,10 @@
   "version": "1.0.0",
   "main": "build/app.js",
   "scripts": {
-    "build": "tsc",
-    "start": "ts-node src/app.ts"
+    "build": "ts-node ./tools/build.ts",
+    "build:tsc": "tsc",
+    "start": "ts-node src/app.ts",
+    "publish": "pnpm build && pnpm publish"
   },
   "devDependencies": {
     "@types/chalk": "^2.2.0",
@@ -34,5 +36,8 @@
   "author": "",
   "bugs": {
     "url": "https://github.com/afroborg/create-kit-plus/issues"
-  }
+  },
+  "files": [
+    "templates/*/**"
+  ]
 }

@@ -1,7 +1,7 @@
 import chalk from 'chalk';
-import { mkdirSync, readdirSync, rmSync } from 'fs';
+import { fstat, mkdirSync, readdir, readdirSync, rmSync } from 'fs';
 import inquirer, { prompt } from 'inquirer';
-import path from 'path';
+import path, { dirname } from 'path';
 
 const createFolder = async (name: string, del: boolean = false) => {
   try {
@@ -30,11 +30,13 @@ const createFolder = async (name: string, del: boolean = false) => {
   }
 };
 
-export const getProjectName = async (): Promise<[string, string]> => {
+export const getProjectName = async (): Promise<string> => {
+  const dirName = path.basename(path.resolve());
   const { name } = await prompt<{ name: string }>({
     name: 'name',
     message: 'Name (empty for current directory name)',
     type: 'input',
+    default: dirName,
     validate: (input) => {
       if (input === '.') {
         return true;
@@ -50,18 +52,33 @@ export const getProjectName = async (): Promise<[string, string]> => {
 
   // if no name specified or (.) get the current folder name instead
   if (name === '.' || !name) {
-    const foldername = path.basename(path.resolve());
-
-    if (readdirSync('.').length > 0) {
-      console.log(
-        chalk.redBright('Directory is not empty, could not continue')
-      );
-      process.exit();
-    }
-
-    return [foldername, '.'];
+    return dirName;
   }
 
-  await createFolder(name);
-  return [name, name];
+  return name;
+};
+
+export const getProjectPath = async (name: string) => {
+  const { projectPath } = await prompt<{ projectPath: string }>({
+    name: 'projectPath',
+    message: `Path (empty leave empty for ${name})`,
+    type: 'input',
+    default: name,
+    validate: (input) => {
+      try {
+        if (readdirSync(input).length > 0) {
+          chalk.redBright('Directory is not empty, could not continue');
+          return false;
+        }
+      } catch {
+        return true;
+      }
+
+      return true;
+    },
+  });
+
+  await createFolder(projectPath);
+
+  return projectPath;
 };

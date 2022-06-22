@@ -1,14 +1,15 @@
 import chalk from 'chalk';
 import { getAdditionalFeatures } from './inquiries/features';
-import { getProjectName } from './inquiries/project';
+import { getProjectName, getProjectPath } from './inquiries/project';
 import { moveFiles } from './utils/files';
 import { buildPackageJson, createPackageJson } from './utils/package-json';
 import { installPackages } from './utils/packages';
 
 const start = async () => {
-  console.log(chalk.cyan('🎨 Creating your E-kit app'));
+  console.log(chalk.cyan('🎨 Creating your Kit+ app'));
 
-  const [name, path] = await getProjectName();
+  const name = await getProjectName();
+  const path = await getProjectPath(name);
   const features = await getAdditionalFeatures();
 
   console.log(chalk.yellowBright('🛠  Building your package.json'));
@@ -19,20 +20,18 @@ const start = async () => {
 
   createPackageJson(packageJson, path);
 
-  console.log('');
-
   console.log(chalk.yellowBright('⌛️ Installing dependencies'));
+
   await installPackages(path);
+
   console.log(chalk.yellowBright('✅ Installed'));
 
-  console.log('');
-
   console.log(
-    chalk.cyan(
-      'Thanks for using create-kit-plus, please feel free to give us a ⭐️'
-    )
+    chalk`\n
+{yellow.bold Thanks for using create-kit-plus, please feel free to give us a ⭐️ on GitHub}
+{cyan.underline https://github.com/afroborg/create-kit-plus}  
+    `
   );
-  console.log(chalk.cyanBright('https://github.com/afroborg/create-kit-plus'));
 };
 
 start();

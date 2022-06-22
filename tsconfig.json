@@ -8,5 +8,6 @@
     "strict": true,
     "target": "es2020",
     "esModuleInterop": true
-  }
+  },
+  "exclude": ["src/templates/*/**"]
 }

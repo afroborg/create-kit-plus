@@ -1,4 +1,4 @@
-#!/usr/bin/node
+#!/usr/bin/env node
 
 import { exec } from 'child_process';
 import { cpSync } from 'fs';

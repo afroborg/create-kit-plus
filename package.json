@@ -1,7 +1,7 @@
 {
   "name": "create-kit-plus",
   "description": "",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "build/app.js",
   "bin": "build/app.js",
   "scripts": {

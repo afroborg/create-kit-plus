@@ -1,7 +1,7 @@
 {
   "name": "create-kit-plus",
   "description": "",
-  "version": "1.0.1",
+  "version": "0.0.1",
   "main": "build/app.js",
   "scripts": {
     "build": "ts-node ./tools/build.ts",

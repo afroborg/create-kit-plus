@@ -1,12 +1,12 @@
 {
   "name": "create-kit-plus",
   "description": "",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "build/app.js",
   "scripts": {
     "build": "ts-node ./tools/build.ts",
     "start": "ts-node src/app.ts",
-    "publish": "pnpm build && pnpm publish"
+    "publish": "pnpm build; pnpm publish"
   },
   "devDependencies": {
     "@types/chalk": "^2.2.0",
